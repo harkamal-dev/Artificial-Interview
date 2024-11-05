@@ -16,5 +16,9 @@ export default function DashboardLayout() {
 
 	if (!isLoaded) return "Loading...";
 
-	return <Outlet />;
+	return (
+		<section className="p-4">
+			<Outlet />
+		</section>
+	);
 }

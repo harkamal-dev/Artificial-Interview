@@ -18,7 +18,7 @@ export default function RootLayout() {
 			publishableKey={PUBLISHABLE_KEY}
 		>
 			<Header />
-			<main className="p-4">
+			<main className="">
 				<Outlet />
 			</main>
 		</ClerkProvider>

@@ -9,9 +9,9 @@ import DashboardLayout from "./layouts/DashboardLayout";
 
 // Import the components
 import IndexPage from "./routes";
-import SignInPage from "./routes/signIn";
-import SignUpPage from "./routes/signUp";
-import DashboardPage from "./routes/Dashboard";
+import SignInPage from "./routes/auth/SignIn";
+import SignUpPage from "./routes/auth/SignUp";
+import DashboardPage from "./routes/dashboard/Dashboard";
 
 const router = createBrowserRouter([
 	{
@@ -29,8 +29,4 @@ const router = createBrowserRouter([
 	},
 ]);
 
-ReactDOM.createRoot(document.getElementById("root")).render(
-	<React.StrictMode>
-		<RouterProvider router={router} />
-	</React.StrictMode>
-);
+ReactDOM.createRoot(document.getElementById("root")).render(<RouterProvider router={router} />);

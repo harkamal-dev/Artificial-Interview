@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button";
+import AiLogo from "@/utils/assets/AiLogo";
 import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import classNames from "classnames";
 
 const HEADER_ROUTES = [
 	{
@@ -19,32 +21,43 @@ const HEADER_ROUTES = [
 ];
 
 const Header = () => {
+	const location = useLocation();
+
 	return (
-		<header className="bg-secondary text-center p-4 flex items-center justify-between">
-			<div className="text-3xl font-semibold ">
+		<header className="bg-secondary text-center p-3 grid grid-cols-3 items-center">
+			<div className="text-3xl font-semibold grid-cols-1 justify-self-start">
 				<Link to="/">
-					<Button variant="ghost" className="text-3xl font-semibold">
-						Artificial Interview
+					<Button variant="ghost" className="text-lg font-semibold ">
+						<AiLogo isLight={false} />
+						<span>Artificial Interview</span>
 					</Button>
 				</Link>
 			</div>
 
-			<div>
+			<div className="grid-cols-1 justify-self-center">
 				<ul className="flex gap-6 font-medium">
 					{HEADER_ROUTES.map((route) => (
-						<li role="button" className="cursor-pointer" key={route.name}>
+						<li
+							role="button"
+							className={classNames("cursor-pointer", {
+								"text-primary": location.pathname === route.path,
+							})}
+							key={route.name}
+						>
 							<Link to={route.path}>{route.name}</Link>
 						</li>
 					))}
 				</ul>
 			</div>
 
-			<SignedIn>
-				<UserButton />
-			</SignedIn>
-			<SignedOut>
-				<Link to="/sign-in">Sign In</Link>
-			</SignedOut>
+			<div className="grid-cols-1 justify-self-end">
+				<SignedIn>
+					<UserButton />
+				</SignedIn>
+				<SignedOut>
+					<Link to="/sign-in">Sign In</Link>
+				</SignedOut>
+			</div>
 		</header>
 	);
 };
