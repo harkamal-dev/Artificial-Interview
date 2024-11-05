@@ -1,10 +1,7 @@
-import { Link } from "react-router-dom";
-
 export default function IndexPage() {
 	return (
-		<div>
-			<h1>This is the index page</h1>
-			{/* / */}
+		<div className="flex justify-center items-center">
+			<h1 className="text-3xl">HOMEPAGE</h1>
 		</div>
 	);
 }

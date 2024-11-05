@@ -1,10 +1,12 @@
-import { Link } from "react-router-dom";
+import NewInterview from "./NewInterview";
 
 export default function DashboardPage() {
 	return (
-		<>
-			<h1>Dashboard page</h1>
-			<p>This is a protected page.</p>
-		</>
+		<div className="px-4 lg:px-32 lg:pt-14 flex flex-col gap-2">
+			<h1 className="text-xl font-semibold">Dashboard</h1>
+			<h1 >Create and start your interview</h1>
+
+			<NewInterview />
+		</div>
 	);
 }

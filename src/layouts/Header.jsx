@@ -34,7 +34,7 @@ const Header = () => {
 				</Link>
 			</div>
 
-			<div className="grid-cols-1 justify-self-center">
+			<div className="grid-cols-1 justify-self-center hidden lg:inline-block">
 				<ul className="flex gap-6 font-medium">
 					{HEADER_ROUTES.map((route) => (
 						<li
