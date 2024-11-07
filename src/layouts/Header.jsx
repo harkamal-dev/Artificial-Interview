@@ -34,13 +34,13 @@ const Header = () => {
 				</Link>
 			</div>
 
-			<div className="grid-cols-1 justify-self-center hidden lg:inline-block">
+			<div className="grid-cols-1 justify-self-center invisible lg:visible">
 				<ul className="flex gap-6 font-medium">
 					{HEADER_ROUTES.map((route) => (
 						<li
 							role="button"
 							className={classNames("cursor-pointer", {
-								"text-primary": location.pathname === route.path,
+								"text-primary": location.pathname.includes(route.path),
 							})}
 							key={route.name}
 						>
