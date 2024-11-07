@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -12,7 +12,7 @@ import { LoaderCircle } from "lucide-react";
 import { parseJsonFromString } from "@/helpers";
 import { useDispatch } from "react-redux";
 import { addQuestions } from "@/redux/slices/questionsSlice";
-import { createInterview } from "@/api/interview";
+import { createInterview, getInterviewList } from "@/api/interview";
 import { useUser } from "@clerk/clerk-react";
 
 const NewInterview = () => {
@@ -135,7 +135,7 @@ const NewInterview = () => {
 	};
 
 	return (
-		<div className="mt-4">
+		<div className="mt-2">
 			<button
 				onClick={() => setIsOpen(true)}
 				className="h-24 w-72 bg-secondary shadow-lg rounded-lg flex justify-center items-center text-xl font-semibold hover:scale-105 transition-all"
@@ -166,6 +166,7 @@ const NewInterview = () => {
 					</DialogDescription>
 				</DialogContent>
 			</Dialog>
+
 		</div>
 	);
 };

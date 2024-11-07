@@ -25,4 +25,13 @@ const getInterview = async (mockId) => {
 	return jsonResponse;
 };
 
-export { createInterview, getInterview };
+const getInterviewList = async (userEmail) => {
+	const response = await fetch(`${BASE_URL}/interviewList/${userEmail}`, {
+		method: "GET",
+	});
+
+	const jsonResponse = await response.json();
+	return jsonResponse;
+};
+
+export { createInterview, getInterview, getInterviewList };
