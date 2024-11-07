@@ -48,7 +48,7 @@ const NewInterview = () => {
 			dispatch(addQuestions(res));
 
 			const jsonResp = await createInterview({
-				jsonMockResp: res,
+				jsonMockResp: JSON.stringify(res),
 				jobPosition: formValues.jobPosition,
 				jobDesc: formValues.techStack,
 				jobExperience: formValues.experience,
@@ -56,7 +56,7 @@ const NewInterview = () => {
 			});
 
 			console.log(jsonResp);
-			
+
 			if (jsonResp.mockId) {
 				navigate(`/dashboard/interview/${jsonResp.mockId}`);
 			}

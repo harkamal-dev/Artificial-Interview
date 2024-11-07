@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import "regenerator-runtime/runtime";
 
 // Import the layouts
 import RootLayout from "./layouts/rootLayout";

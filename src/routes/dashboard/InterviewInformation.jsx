@@ -56,7 +56,7 @@ const InterviewInformation = () => {
 									<strong>Experience:</strong> {interviewData?.jobExperience} years
 								</h1>
 							</div>
-							<div className="p-4 border border-yellow-300 bg-yellow-100 rounded-lg text-lg grid gap-2 mt-6 text-yellow-500">
+							<div className="p-4 border border-yellow-300 bg-yellow-100 rounded-lg text-base grid gap-2 mt-6 text-yellow-500">
 								<span className="flex gap-2">
 									<Lightbulb /> <strong>Information</strong>
 								</span>
@@ -66,13 +66,9 @@ const InterviewInformation = () => {
 
 						<div className="grid-cols-1 mt-6 grid">
 							{isWebcamEnabled ? (
-								<Webcam
-									onUserMedia={() => setIsWebcamEnabled(true)}
-									onUserMediaError={() => setIsWebcamEnabled(false)}
-									className="h-80"
-								/>
+								<Webcam mirrored onUserMedia={() => setIsWebcamEnabled(true)} onUserMediaError={() => setIsWebcamEnabled(false)} />
 							) : (
-								<WebcamIcon className="h-80 w-full bg-secondary py-24 rounded-lg" />
+								<WebcamIcon className="h-96 w-full bg-secondary py-24 rounded-lg" />
 							)}
 							<Button
 								className="mt-6 justify-self-center"

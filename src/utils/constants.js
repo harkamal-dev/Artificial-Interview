@@ -12,4 +12,6 @@ const INTERVIEW_TYPES = [
 const MICROPHONE_INFORMATION =
 	"To begin the interview, please enable your webcam and microphone. This ensures a smooth and interactive experience. Rest assured, we do not record or store any audio or video from your session. However, access to your devices is necessary, and the interview cannot proceed without it.";
 
-export { INTERVIEW_TYPES, MICROPHONE_INFORMATION };
+const RECORD_INFO = "Click on the Record Answer when you want to answer your question. At the end of the Interview, we will share the feedback along with the overall marks.";
+
+export { INTERVIEW_TYPES, MICROPHONE_INFORMATION, RECORD_INFO };

@@ -34,7 +34,7 @@ const Header = () => {
 				</Link>
 			</div>
 
-			<div className="grid-cols-1 justify-self-center invisible lg:visible">
+			<div className="grid-cols-1 justify-self-center invisible md:visible">
 				<ul className="flex gap-6 font-medium">
 					{HEADER_ROUTES.map((route) => (
 						<li
