@@ -19,9 +19,9 @@ const NewInterview = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [interviewType, setInterviewType] = useState(INTERVIEW_TYPES[1].id);
 	const [formValues, setFormValues] = useState({
-		jobPosition: "Frontend developer",
-		techStack: "React, Redux",
-		experience: "4",
+		jobPosition: "",
+		techStack: "",
+		experience: "",
 		resume: null,
 	});
 	const [isLoading, setIsLoading] = useState(false);
@@ -54,8 +54,6 @@ const NewInterview = () => {
 				jobExperience: formValues.experience,
 				createdBy: user.primaryEmailAddress.emailAddress,
 			});
-
-			console.log(jsonResp);
 
 			if (jsonResp.mockId) {
 				navigate(`/dashboard/interview/${jsonResp.mockId}`);
@@ -138,7 +136,7 @@ const NewInterview = () => {
 		<div className="mt-2">
 			<button
 				onClick={() => setIsOpen(true)}
-				className="h-24 w-72 bg-secondary shadow-lg rounded-lg flex justify-center items-center text-xl font-semibold hover:scale-105 transition-all"
+				className="h-24 w-72 bg-secondary shadow-lg rounded-lg flex justify-center items-center text-xl font-semibold hover:scale-105 transition-all text-primary"
 			>
 				+ New Interview
 			</button>
@@ -166,7 +164,6 @@ const NewInterview = () => {
 					</DialogDescription>
 				</DialogContent>
 			</Dialog>
-
 		</div>
 	);
 };

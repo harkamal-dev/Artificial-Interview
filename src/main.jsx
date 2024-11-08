@@ -15,6 +15,7 @@ import SignUpPage from "./routes/auth/SignUp";
 import DashboardPage from "./routes/dashboard/Dashboard";
 import InterviewInformation from "./routes/dashboard/InterviewInformation";
 import InterviewQuestions from "./routes/dashboard/InterviewQuestions";
+import Feedback from "./routes/dashboard/Feedback";
 
 const router = createBrowserRouter([
 	{
@@ -30,6 +31,7 @@ const router = createBrowserRouter([
 					{ path: "/dashboard", element: <DashboardPage /> },
 					{ path: "/dashboard/interview/:mockId", element: <InterviewInformation /> },
 					{ path: "/dashboard/interview/:mockId/start/*", element: <InterviewQuestions /> },
+					{ path: "/dashboard/interview/:mockId/feedback/*", element: <Feedback /> },
 				],
 			},
 		],

@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getInterview } from "@/api/interview";
+import { getInterview, postUserAnswerAPI } from "@/api/interview";
 import { addQuestions } from "@/redux/slices/questionsSlice";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import classNames from "classnames";
-import { Lightbulb, LoaderCircle } from "lucide-react";
+import { Lightbulb, LoaderCircle, Mic, StopCircle, StopCircleIcon } from "lucide-react";
 import { RECORD_INFO } from "@/utils/constants";
 import Webcam from "react-webcam";
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
-import "regenerator-runtime/runtime";
+import { model } from "@/api/geminiAi";
+import { getUserAnswersPayload, parseJsonFromString } from "@/helpers";
+import { useUser } from "@clerk/clerk-react";
 
 const InterviewQuestions = () => {
 	const questions = useSelector((state) => state?.questions?.questions) || [];
@@ -17,7 +19,11 @@ const InterviewQuestions = () => {
 	const { mockId } = useParams();
 	const [loading, setLoading] = useState(false);
 	const [currentQuestionIdx, setCurrentQuestionIdx] = useState(1);
+	const [userAnswers, setUserAnswers] = useState(Array(5).fill(null));
+	const [postAnswerLoading, setPostAnswerLoading] = useState(false);
 	const { transcript, listening, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition();
+	const { user } = useUser();
+	const navigate = useNavigate();
 
 	const getInterviewData = async () => {
 		try {
@@ -47,13 +53,101 @@ const InterviewQuestions = () => {
 		setCurrentQuestionIdx((prev) => Math.min(questions.length, prev + 1));
 	};
 
+	const getFeedbackFromAI = async () => {
+		try {
+			setPostAnswerLoading(true);
+			const prompt = `I am taking the interview of candidate. The question is ${
+				questions[currentQuestionIdx - 1]?.question
+			}, the actual answer is - ${
+				questions[currentQuestionIdx - 1]?.answer
+			} and the candidate has given the answer - ${transcript}. Give me the rating from 0 to 10 for the candidate answer and feedback for the candidate in 1 or 2 lines in JSON format. `;
+			const mockResult = await model.generateContent(prompt);
+			const res = parseJsonFromString(mockResult.response.text());
+
+			postUserAnswer(res);
+		} catch (error) {
+			console.log(error);
+			setPostAnswerLoading(false);
+		}
+	};
+
+	const postUserAnswer = async (aiFeedback) => {
+		try {
+			const currQuestionAns = questions[currentQuestionIdx - 1];
+			const userResObj = getUserAnswersPayload(currQuestionAns, transcript, aiFeedback, user, mockId);
+
+			const { data } = await postUserAnswerAPI(userResObj);
+			setUserAnswers((prev) => {
+				let cloneArr = [...prev];
+				cloneArr[currentQuestionIdx - 1] = data;
+				return cloneArr;
+			});
+			resetTranscript();
+		} catch (error) {
+			console.log(error);
+		} finally {
+			setPostAnswerLoading(false);
+		}
+	};
+
 	const handleRecord = () => {
 		if (listening) {
 			SpeechRecognition.stopListening();
+			getFeedbackFromAI();
 		} else {
 			resetTranscript();
 			SpeechRecognition.startListening({ continuous: true });
 		}
+	};
+
+	const getAnswerOrTranscript = (transcript) => {
+		if (!!userAnswers[currentQuestionIdx - 1]) {
+			return userAnswers[currentQuestionIdx - 1]?.userAns;
+		} else {
+			return transcript;
+		}
+	};
+
+	const getRecordButtonContent = (postAnswerLoading, listening) => {
+		if (postAnswerLoading) {
+			return (
+				<>
+					<LoaderCircle className="animate-spin" /> Saving
+				</>
+			);
+		} else if (listening) {
+			return (
+				<>
+					<StopCircleIcon /> Save Answer
+				</>
+			);
+		} else if (!!userAnswers[currentQuestionIdx - 1]) {
+			return "Answer Saved";
+		} else {
+			return (
+				<>
+					<Mic /> Record Answer
+				</>
+			);
+		}
+	};
+
+	const getDisabledStateForRecordBtn = () => {
+		if (postAnswerLoading) {
+			return true;
+		}
+
+		const disabledIfAlreadySubmit = !!userAnswers[currentQuestionIdx - 1];
+		return disabledIfAlreadySubmit;
+	};
+
+	const getSubmitInterviewState = () => {
+		const disabled = userAnswers.some((item) => !item);
+		return disabled;
+	};
+
+	const handleSubmitInterview = () => {
+		navigate(`/dashboard/interview/${mockId}/feedback`);
 	};
 
 	if (!browserSupportsSpeechRecognition) {
@@ -102,18 +196,29 @@ const InterviewQuestions = () => {
 				</div>
 
 				{/* Right panel for webcam */}
-				<div className="grid">
-					<Webcam mirrored />
-					<div className="h-32 overflow-y-auto">
-						<p>{transcript}</p>
+				<div className="flex flex-col items-center justify-center">
+					<Webcam mirrored className="max-h-96" />
+					<div className="h-32 overflow-y-auto mt-2">
+						<p>{getAnswerOrTranscript(transcript)}</p>
 					</div>
-					<Button variant="secondary" className="mt-6 justify-self-center hover:scale-105" onClick={handleRecord}>
-						{listening ? "Save" : "Record Answer"}
+					<Button
+						variant="secondary"
+						className={classNames("mt-6 justify-self-center hover:scale-105", {
+							"bg-destructive text-primary-foreground hover:text-destructive": listening,
+						})}
+						disabled={getDisabledStateForRecordBtn()}
+						onClick={handleRecord}
+					>
+						{getRecordButtonContent(postAnswerLoading, transcript)}
 					</Button>
 				</div>
 			</div>
 			<div className="grid justify-end">
-				<Button disabled className="hover:scale-105">
+				<Button
+					// disabled={getSubmitInterviewState()}
+					onClick={handleSubmitInterview}
+					className="hover:scale-105"
+				>
 					Submit Interview
 				</Button>
 			</div>

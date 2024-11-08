@@ -20,7 +20,7 @@ const getInterview = async (mockId) => {
 	const response = await fetch(`${BASE_URL}/interviews/${mockId}`, {
 		method: "GET",
 	});
-    
+
 	const jsonResponse = await response.json();
 	return jsonResponse;
 };
@@ -34,4 +34,26 @@ const getInterviewList = async (userEmail) => {
 	return jsonResponse;
 };
 
-export { createInterview, getInterview, getInterviewList };
+const postUserAnswerAPI = async (userAnswer) => {
+	const response = await fetch(`${BASE_URL}/interviews/userAnswer`, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(userAnswer),
+	});
+
+	const jsonResponse = await response.json();
+	return jsonResponse;
+};
+
+const getFeedbackAPI = async (mockId) => {
+	const response = await fetch(`${BASE_URL}/feedback/${mockId}`, {
+		method: "GET",
+	});
+
+	const jsonResponse = await response.json();
+	return jsonResponse;
+};
+
+export { createInterview, getInterview, getInterviewList, postUserAnswerAPI, getFeedbackAPI };
