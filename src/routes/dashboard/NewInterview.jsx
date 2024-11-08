@@ -136,7 +136,7 @@ const NewInterview = () => {
 		<div className="mt-2">
 			<button
 				onClick={() => setIsOpen(true)}
-				className="h-24 w-72 bg-secondary shadow-lg rounded-lg flex justify-center items-center text-xl font-semibold hover:scale-105 transition-all text-primary"
+				className="h-24 w-72 bg-secondary shadow-lg rounded-lg flex justify-center items-center text-xl font-semibold hover:scale-105 transition-all"
 			>
 				+ New Interview
 			</button>

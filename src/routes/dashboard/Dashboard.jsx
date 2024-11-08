@@ -4,6 +4,7 @@ import { getInterviewList } from "@/api/interview";
 import { useUser } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 import { formatTimestamp } from "@/helpers";
+import { Button } from "@/components/ui/button";
 
 export default function DashboardPage() {
 	const [interviewList, setInterviewList] = useState([]);
@@ -29,7 +30,7 @@ export default function DashboardPage() {
 
 	return (
 		<div className="px-4 lg:px-32 lg:pt-14 flex flex-col gap-2">
-			<h1 className="text-xl font-semibold">Dashboard</h1>
+			<h1 className="text-2xl font-bold text-primary">Dashboard</h1>
 			<h1>Create and start your Interview</h1>
 
 			<NewInterview />
@@ -42,7 +43,7 @@ export default function DashboardPage() {
 							<div
 								key={item.id}
 								onClick={handleClickPreviousInterview.bind(this, item.mockId)}
-								className="min-w-72 bg-secondary shadow-lg rounded-lg flex flex-col gap-2 justify-start text-xl font-semibold hover:scale-105 transition-all p-6 cursor-pointer"
+								className="min-w-72 border-2 border-secondary shadow-lg rounded-lg flex flex-col gap-2 justify-start text-xl font-semibold hover:scale-105 transition-all p-6 cursor-pointer"
 							>
 								<p className="text-lg text-primary">
 									<strong className="font-bold">{item.jobPosition}</strong>
