@@ -10,9 +10,9 @@ export default function IndexPage() {
 		navigate("/dashboard");
 	};
 	return (
-		<div className="flex flex-col lg:flex-row items-center justify-center lg:justify-normal h-screen bg-gradient-to-r from-blue-200 to-blue-500">
+		<div className="flex flex-col lg:flex-row items-center lg:justify-normal h-screen bg-gradient-to-r from-blue-200 to-blue-500">
 			{/* bg-gradient-to-r from-slate-900 to-blue-800 */}
-			<div className="lg:p-14">
+			<div className="p-8 lg:p-14">
 				<h1 className="text-xl lg:text-2xl font-semibold mb-6">Artificial Interview</h1>
 				<h1 className="font-extrabold text-4xl lg:text-8xl ">Elevate your</h1>
 				<h1 className="font-extrabold text-4xl lg:text-8xl ">
