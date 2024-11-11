@@ -197,7 +197,7 @@ const InterviewQuestions = () => {
 
 				{/* Right panel for webcam */}
 				<div className="flex flex-col items-center justify-center">
-					<Webcam mirrored className="max-h-96" />
+					<Webcam mirrored className="max-h-96 rounded-xl" />
 					<div className="h-32 overflow-y-auto mt-2">
 						<p>{getAnswerOrTranscript(transcript)}</p>
 					</div>

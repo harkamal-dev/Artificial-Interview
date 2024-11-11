@@ -4,9 +4,11 @@ import { getFeedbackAPI } from "@/api/interview";
 import { calculateAverageRating } from "@/helpers";
 import FeedbackQuestionAccordions from "./FeedbackQuestionAccordions";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Feedback = () => {
 	const [questionsList, setQuestionsList] = useState([]);
+	const [loading, setLoading] = useState(true);
 	const { mockId } = useParams();
 	const navigate = useNavigate();
 
@@ -16,6 +18,8 @@ const Feedback = () => {
 			setQuestionsList(res);
 		} catch (error) {
 			console.log(error);
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -37,6 +41,13 @@ const Feedback = () => {
 			<p className="text-base mt-2">
 				Below are the correct answers for the questions with individual ratings and some feedbacks for improvements
 			</p>
+
+			<div className="flex flex-col gap-4">
+				{loading &&
+					Array(5)
+						.fill("")
+						.map((_, idx) => <Skeleton key={idx} className="h-[65px] w-full rounded-xl" />)}
+			</div>
 
 			<FeedbackQuestionAccordions questionsList={questionsList} />
 
